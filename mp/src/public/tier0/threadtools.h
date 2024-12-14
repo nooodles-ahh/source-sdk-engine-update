@@ -677,7 +677,7 @@ private:
 			return false;
 
 		ThreadMemoryBarrier();
-		++m_depth;
+        m_depth = m_depth + 1;//c++20 throws a fit if you use unary operators or compound assignment in a volatile
 		return true;
 	}
 
@@ -738,7 +738,7 @@ public:
 			DebuggerBreak();
 #endif
 
-		--m_depth;
+        m_depth = m_depth - 1;
 		if ( !m_depth )
 		{
 			ThreadMemoryBarrier();
@@ -893,7 +893,7 @@ template<typename T> T strip_cv_quals_for_mutex(volatile T&);
 template<typename T> T strip_cv_quals_for_mutex(const volatile T&);
 
 #define AUTO_LOCK( mutex ) \
-    AUTO_LOCK_( typeof(::strip_cv_quals_for_mutex(mutex)), mutex )
+    AUTO_LOCK_( __typeof__(::strip_cv_quals_for_mutex(mutex)), mutex )
 
 #else // GNUC
 

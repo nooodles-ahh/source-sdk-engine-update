@@ -101,7 +101,12 @@ public:
 	FORCEINLINE bool operator==( const CUtlReference& o ) const
 	{
 		return ( o.m_pObject == m_pObject );
-	}	
+    }
+
+    FORCEINLINE bool operator!=( const int i) const
+    {
+        return i != (int)m_pObject;
+    }
 
 public:
 	CUtlReference *m_pNext;

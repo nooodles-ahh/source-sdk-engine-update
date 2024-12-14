@@ -14,6 +14,7 @@
 
 #include <mathlib/vector.h>
 #include <mathlib/mathlib.h>
+#include <tier0/memalloc.h>
 
 #if defined(GNUC)
 #define USE_STDC_FOR_SIMD 0

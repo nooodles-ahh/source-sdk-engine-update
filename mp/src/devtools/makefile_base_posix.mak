@@ -54,14 +54,14 @@ BUILDING_MULTI_ARCH = 0
 ENV_CFLAGS := $(CFLAGS)
 ENV_CXXFLAGS := $(CXXFLAGS)
 CPPFLAGS = $(DEFINES) $(addprefix -I, $(abspath $(INCLUDEDIRS) ))
-BASE_CFLAGS = $(ARCH_FLAGS) $(CPPFLAGS) $(WARN_FLAGS) -fvisibility=$(SymbolVisibility) $(OptimizerLevel) -pipe $(GCC_ExtraCompilerFlags) -Usprintf -Ustrncpy -UPROTECTED_THINGS_ENABLE
+BASE_CFLAGS = $(ARCH_FLAGS) $(CPPFLAGS) $(WARN_FLAGS) -fvisibility=$(SymbolVisibility) $(OptimizerLevel) -pipe $(GCC_ExtraCompilerFlags) -Usprintf -Ustrncpy -UPROTECTED_THINGS_ENABLE -fabi-compat-version=2
 CFLAGS = $(BASE_CFLAGS) $(ENV_CFLAGS)
 # In -std=gnu++0x mode we get lots of errors about "error: narrowing conversion". -fpermissive
 # turns these into warnings in gcc, and -Wno-c++11-narrowing suppresses them entirely in clang 3.1+.
 ifeq ($(CLANG_BUILD),1)
-	CXXFLAGS = $(BASE_CFLAGS) -std=gnu++0x -Wno-c++11-narrowing -Wno-dangling-else $(ENV_CXXFLAGS)
+	CXXFLAGS = $(BASE_CFLAGS) -std=gnu++14 -Wno-c++14-narrowing -Wno-dangling-else $(ENV_CXXFLAGS)
 else
-	CXXFLAGS = $(BASE_CFLAGS) -std=gnu++0x -fpermissive $(ENV_CXXFLAGS)
+	CXXFLAGS = $(BASE_CFLAGS) -std=gnu++14 -fpermissive $(ENV_CXXFLAGS)
 endif
 DEFINES += -DVPROF_LEVEL=1 -DGNUC -DNO_HOOK_MALLOC -DNO_MALLOC_OVERRIDE
 
@@ -101,7 +101,7 @@ else ifeq ($(USE_VALVE_BINDIR),1)
 	CRYPTOPPDIR=linux32
 else
 	# Not using chroot, use old steam-runtime. (gcc 4.6.3)
-	export STEAM_RUNTIME_PATH ?= /valve/steam-runtime
+	export STEAM_RUNTIME_PATH ?= /usr
 	GCC_VER =
 	P4BIN = p4
 	CRYPTOPPDIR=ubuntu12_32
@@ -159,6 +159,13 @@ else
 	WARN_FLAGS += -Wno-unused-variable
 	WARN_FLAGS += -Wno-unused-but-set-variable
 	WARN_FLAGS += -Wno-unused-function
+	WARN_FLAGS += -Wno-unused-result
+	# -----------------------------------
+	WARN_FLAGS += -Wno-maybe-uninitialized
+	WARN_FLAGS += -Wno-delete-non-virtual-dtor
+	WARN_FLAGS += -Wno-stringop-truncation
+	WARN_FLAGS += -Wno-address
+	WARN_FLAGS += -Wno-uninitialized
 endif
 
 ifeq ($(CLANG_BUILD),1)
@@ -171,8 +178,9 @@ else ifeq ($(GCC_VER),-4.8)
 endif
 
 WARN_FLAGS += -Wno-unknown-pragmas -Wno-unused-parameter -Wno-unused-value -Wno-missing-field-initializers
-WARN_FLAGS += -Wno-sign-compare -Wno-reorder -Wno-invalid-offsetof -Wno-float-equal -Werror=return-type
+WARN_FLAGS += -Wno-sign-compare -Wno-reorder -Wno-invalid-offsetof -Wno-float-equal -Werror=return-type -Wno-narrowing
 WARN_FLAGS += -fdiagnostics-show-option -Wformat -Wformat-security
+WARN_FLAGS += -Wno-class-memaccess -Wno-unused-local-typedefs -Wno-ignored-attributes
 
 ifeq ($(TARGET_PLATFORM),linux64)
 	# nocona = pentium4 + 64bit + MMX, SSE, SSE2, SSE3 - no SSSE3 (that's three s's - added in core2)
@@ -199,10 +207,10 @@ else
 endif
 VSIGN ?= true
 
-ifeq ($(SOURCE_SDK), 1)
-	Srv_GAMEOUTPUTFILE := $(GAMEOUTPUTFILE:.so=_srv.so)
-	COPY_DLL_TO_SRV := 1
-endif
+# ifeq ($(SOURCE_SDK), 1)
+# 	Srv_GAMEOUTPUTFILE := $(GAMEOUTPUTFILE:.so=_srv.so)
+# 	COPY_DLL_TO_SRV := 1
+# endif
 
 LINK_MAP_FLAGS = -Wl,-Map,$(@:.so=).map
 
