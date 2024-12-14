@@ -510,6 +510,20 @@ $Project
 		$File	"$SRCDIR\public\haptics\haptic_msgs.cpp"	[!$X360]
 		$File	"$SRCDIR\public\haptics\haptic_utils.cpp"	[$WIN32&&!$X360]
 
+		$File	"$SRCDIR\public\materialsystem\MaterialSystemUtil.cpp" \
+				"$SRCDIR\tier2\tier2.cpp" \
+				"$SRCDIR\tier2\beamsegdraw.cpp" \
+				"$SRCDIR\tier3\tier3.cpp" [$NEW_ENGINE]
+		{
+			$Configuration
+			{
+				$Compiler
+				{
+					$Create/UsePrecompiledHeader	"Not Using Precompiled Headers"
+				}
+			}
+		}
+
 		$Folder	"Sixense"
 		{
 			$File	"sixense\in_sixense.cpp"

@@ -106,7 +106,7 @@ private:
 	PopupHTML *m_pHTML;
 };
 
-
+#pragma warning(disable: 4355)
 //-----------------------------------------------------------------------------
 // Purpose: Constructor
 //-----------------------------------------------------------------------------
@@ -191,7 +191,7 @@ m_HideTooltip( this, &HTML::BrowserHideToolTip )
 	m_pContextMenu->AddSeparator();
 	m_nViewSourceAllowedIndex = m_pContextMenu->AddMenuItem( "#vgui_HTMLViewSource", new KeyValues( "Command", "command", "viewsource" ), this );
 }
-
+#pragma warning(default: 4355)
 
 //-----------------------------------------------------------------------------
 // Purpose: browser is ready to show pages

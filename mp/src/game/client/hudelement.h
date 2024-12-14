@@ -55,6 +55,10 @@ public:
 	virtual bool				IsActive( void ) { return m_bActive; };
 	virtual void				SetActive( bool bActive );
 
+#ifdef NEW_ENGINE
+	virtual unsigned int		GetPreferredActionSet() { return 0; }
+#endif
+
 	// Hidden bits. 
 	// HIDEHUD_ flags that note when this element should be hidden in the HUD
 	virtual void				SetHiddenBits( int iBits );

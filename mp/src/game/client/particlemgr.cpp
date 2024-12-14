@@ -169,7 +169,7 @@ CParticleEffectBinding::~CParticleEffectBinding()
 // The is the max size of the particles for use in bounding	computation
 void CParticleEffectBinding::SetParticleCullRadius( float flMaxParticleRadius )
 {
-	if ( m_flParticleCullRadius != flMaxParticleRadius )
+	if ( m_flParticleCullRadius != flMaxParticleRadius || isnan( m_flParticleCullRadius ) )
 	{
 		m_flParticleCullRadius = flMaxParticleRadius;
 

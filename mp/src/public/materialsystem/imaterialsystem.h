@@ -66,7 +66,11 @@ typedef uint64 VertexFormat_t;
 
 // NOTE NOTE NOTE!!!!  If you up this, grep for "NEW_INTERFACE" to see if there is anything
 // waiting to be enabled during an interface revision.
+#ifdef NEW_ENGINE
+#define MATERIAL_SYSTEM_INTERFACE_VERSION "VMaterialSystem081"
+#else
 #define MATERIAL_SYSTEM_INTERFACE_VERSION "VMaterialSystem080"
+#endif
 
 #ifdef POSIX
 #define ABSOLUTE_MINIMUM_DXLEVEL 90
@@ -802,6 +806,12 @@ public:
 	// Material and texture management
 	//---------------------------------------------------------
 
+#ifdef NEW_ENGINE
+	// Awkwardly inserted texture streaming functions
+	virtual void SuspendTextureStreaming( void ) = 0;
+	virtual void ResumeTextureStreaming( void ) = 0;
+#endif
+
 	// uncache all materials. .  good for forcing reload of materials.
 	virtual void				UncacheAllMaterials( ) = 0;
 
@@ -1078,6 +1088,16 @@ public:
 	// creates a texture suitable for use with materials from a raw stream of bits.
 	// The bits will be retained by the material system and can be freed upon return.
 	virtual ITexture*			CreateNamedTextureFromBitsEx( const char* pName, const char *pTextureGroupName, int w, int h, int mips, ImageFormat fmt, int srcBufferSize, byte* srcBits, int nFlags ) = 0;
+
+#ifdef NEW_ENGINE
+	virtual bool				AddTextureCompositorTemplate( const char *param_1, KeyValues *pKv, int param_3 = 0 ) = 0;
+	virtual bool				VerifyTextureCompositorTemplates( void ) = 0;
+
+	// Enum of current render backend
+	// TODO - determine the rest
+	// 4 = dummy
+	virtual int					GetRenderBackend( void ) = 0;
+#endif
 };
 
 

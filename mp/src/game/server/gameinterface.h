@@ -153,6 +153,10 @@ public:
 	// Called to see if the game server is okay with a manual changelevel or map command
 	virtual bool			IsManualMapChangeOkay( const char **pszReason ) OVERRIDE;
 
+#ifdef NEW_ENGINE
+	virtual bool GetWorkshopMap( unsigned int unk, WorkshopMapDesc_t *pMapDesc ) OVERRIDE { return false; }
+#endif
+
 private:
 
 	// This can just be a wrapper on MapEntity_ParseAllEntities, but CS does some tricks in here

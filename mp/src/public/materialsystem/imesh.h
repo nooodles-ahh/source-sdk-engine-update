@@ -19,7 +19,7 @@
 #include "tier2/meshutils.h"
 #include "mathlib/mathlib.h"
 
-#if defined( DX_TO_GL_ABSTRACTION )
+#if defined( DX_TO_GL_ABSTRACTION ) && !defined(NEW_ENGINE)
 // Swap these so that we do color swapping on 10.6.2, which doesn't have EXT_vertex_array_bgra
 #define	OPENGL_SWAP_COLORS
 #endif

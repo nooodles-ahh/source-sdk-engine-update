@@ -556,6 +556,13 @@ public:
 abstract_class IVEngineClient : public IVEngineClient013
 {
 public:
+#ifdef NEW_ENGINE
+	virtual float			GetPausedExpireTime( void ) = 0;
+	virtual bool			StartDemoRecording( const char *param_1, const char *param_2 ) = 0;
+	virtual void			StopDemoRecording( void ) = 0;
+	virtual void			TakeScreenshot( const char *param_1, const char *param_2 ) = 0;
+#endif
+
 	virtual uint GetProtocolVersion() = 0;
 	virtual bool IsWindowedMode() = 0;
 
@@ -571,6 +578,10 @@ public:
 	virtual void DisconnectInternal() = 0;
 
 	virtual int GetInstancesRunningCount( ) = 0;
+
+#ifdef NEW_ENGINE
+	virtual bool IsInCommentaryMode( void ) = 0;
+#endif
 };
 
 
@@ -785,6 +796,11 @@ public:
 	virtual bool DisconnectAttempt( void ) = 0;
 
 	virtual bool IsConnectedUserInfoChangeAllowed( IConVar *pCvar ) = 0;
+
+#ifdef NEW_ENGINE
+	virtual bool IsSpeakingDisallowed() { return false; }
+	virtual void UnkFunc01() {}
+#endif
 };
 
 #define CLIENT_DLL_INTERFACE_VERSION		"VClient017"

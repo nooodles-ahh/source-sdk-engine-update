@@ -60,6 +60,7 @@ class CSteamID;
 class IReplayFactory;
 class IReplaySystem;
 class IServer;
+class WorkshopMapDesc_t;
 
 typedef struct player_info_s player_info_t;
 
@@ -342,8 +343,10 @@ public:
 	// even though we may not have waited enough time
 	virtual void			AllowImmediateEdictReuse( ) = 0;
 
+#ifndef NEW_ENGINE
 	// Returns true if the engine is an internal build. i.e. is using the internal bugreporter.
 	virtual bool		IsInternalBuild( void ) = 0;
+#endif
 
 	virtual IChangeInfoAccessor *GetChangeAccessor( const edict_t *pEdict ) = 0;	
 
@@ -452,8 +455,13 @@ typedef IVEngineServer IVEngineServer022;
 
 #define INTERFACEVERSION_SERVERGAMEDLL_VERSION_8	"ServerGameDLL008"
 #define INTERFACEVERSION_SERVERGAMEDLL_VERSION_9	"ServerGameDLL009"
+#ifdef NEW_ENGINE
+#define INTERFACEVERSION_SERVERGAMEDLL				"ServerGameDLL012"
+#define INTERFACEVERSION_SERVERGAMEDLL_INT			12
+#else
 #define INTERFACEVERSION_SERVERGAMEDLL				"ServerGameDLL010"
 #define INTERFACEVERSION_SERVERGAMEDLL_INT			10
+#endif
 
 class IServerGCLobby;
 
@@ -629,6 +637,10 @@ public:
 
 	// Called to see if the game server is okay with a manual changelevel or map command
 	virtual bool			IsManualMapChangeOkay( const char **pszReason ) = 0;
+
+#ifdef NEW_ENGINE
+	virtual bool GetWorkshopMap( unsigned int unk, WorkshopMapDesc_t *pMapDesc ) = 0;
+#endif
 };
 
 typedef IServerGameDLL IServerGameDLL008;

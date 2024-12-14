@@ -55,6 +55,11 @@ public:
 	virtual void AddLineOverlayAlpha(const Vector& origin, const Vector& dest, int r, int g, int b, int a, bool noDepthTest, float duration) = 0;
 	virtual void AddBoxOverlay2( const Vector& origin, const Vector& mins, const Vector& max, QAngle const& orientation, const Color& faceColor, const Color& edgeColor, float duration ) = 0;
 
+#ifdef NEW_ENGINE
+	virtual void AddScreenTextOverlay( float param1, float param2, int param3, float param4,
+		int param5, int param6, int param7, int param8, char const *param9 ) = 0;
+#endif
+
 private:
 	inline void AddTextOverlay(const Vector& origin, int line_offset, float duration, int r, int g, int b, int a, PRINTF_FORMAT_STRING const char *format, ...) {} /* catch improper use of bad interface. Needed because '0' duration can be resolved by compiler to NULL format string (i.e., compiles but calls wrong function) */
 };

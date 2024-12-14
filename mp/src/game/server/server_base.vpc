@@ -665,6 +665,19 @@ $Project
 		$File	"$SRCDIR\public\haptics\haptic_msgs.cpp"
 		$File	"$SRCDIR\public\haptics\haptic_utils.cpp"	[$WIN32]
 
+		$File	"$SRCDIR\public\materialsystem\MaterialSystemUtil.cpp" \
+				"$SRCDIR\tier2\tier2.cpp" \
+				"$SRCDIR\tier3\tier3.cpp" [$NEW_ENGINE]
+		{
+			$Configuration
+			{
+				$Compiler
+				{
+					$Create/UsePrecompiledHeader	"Not Using Precompiled Headers"
+				}
+			}
+		}
+
 		// Not using precompiled header cbase.h
 
 		$File	"$SRCDIR\public\bone_setup.cpp"					\

@@ -102,6 +102,10 @@ public:
 
 	// add a tick signal like above, but to the head of the list of tick signals
 	virtual void AddTickSignalToHead( VPANEL panel, int intervalMilliseconds = 0 ) = 0;
+
+#ifdef NEW_ENGINE
+	virtual void GetVGUIEngine( void ) = 0;
+#endif
 };
 
 #define VGUI_IVGUI_INTERFACE_VERSION "VGUI_ivgui008"

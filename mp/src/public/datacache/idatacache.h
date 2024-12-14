@@ -179,6 +179,9 @@ abstract_class IDataCacheSection
 {
 public:
 	//--------------------------------------------------------
+#ifdef NEW_ENGINE
+	virtual ~IDataCacheSection() = 0;
+#endif
 
 	virtual IDataCache *GetSharedCache() = 0;
 	virtual const char *GetName() = 0;
